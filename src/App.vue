@@ -1,8 +1,21 @@
 <template>
   <div>
-    <router-view></router-view>
+    <n-message-provider>
+      <Message />
+    </n-message-provider>
+    <n-config-provider
+      :theme="theme"
+    >
+      <router-view></router-view>
+    </n-config-provider>
   </div>
 </template>
+
+<script setup>
+import { darkTheme } from "naive-ui";
+import Message from "./components/Message/index.vue"
+const theme = darkTheme
+</script>
 
 <style scoped>
 .logo {

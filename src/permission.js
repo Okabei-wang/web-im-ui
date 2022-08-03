@@ -1,5 +1,6 @@
 import router from './router'
 
 router.beforeEach((to, from, next) => {
-    return next()
+  console.log(to, from)
+  return next()
 })
