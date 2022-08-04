@@ -122,6 +122,12 @@ onBeforeMount(() => {
 <style lang="scss" scoped>
 .main {
   position: relative;
+  text-align: center;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .register-title {
     font-size: 30px;

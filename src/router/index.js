@@ -9,7 +9,17 @@ const routes = [
     {
         path: '/home',
         name: 'home',
-        component: Home
+        component: Home,
+        children: [
+          {
+            path: 'index',
+            component: () => import('../views/home/mainpage/index.vue')
+          },
+          {
+            path: 'newroom',
+            component: () => import('../views/home/room/index.vue')
+          }
+        ]
     },
     {
         path: '/login',

@@ -32,3 +32,13 @@ export function fetchImageCode() {
     data
   })
 }
+
+/**
+ * 获取用户信息
+ */
+ export function userInfo() {
+  return request({
+    url: `${serverHost}/user/info`,
+    method: 'GET'
+  })
+}
