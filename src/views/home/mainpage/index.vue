@@ -7,8 +7,28 @@
 
 <script setup>
 import { ref, onBeforeMount } from 'vue'
+import socketio from 'socket.io-client'
 
 const userInfo = ref(sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')) : {})
+
+const initSocket = () => {
+  let io = socketio('http://localhost:3000', {
+    //transports和服务端统一，否则会跨域
+      transports: ['websocket']
+  })
+  //向服务端发送消息
+  const info = JSON.parse(sessionStorage.getItem('userInfo'))
+  io.emit('sendMsg', { type: 0, time: new Date(), message: `${info.username} 链接 websocket`, userId: info._id })
+
+  //接收服务端相对应的setId数据
+  io.on('setId', data => {
+    console.log(data)
+  })
+}
+
+onBeforeMount(() => {
+  initSocket()
+})
 </script>
 
 <style lang="scss" scoped>

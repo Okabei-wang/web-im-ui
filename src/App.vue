@@ -14,6 +14,7 @@
 <script setup>
 import { darkTheme } from "naive-ui";
 import Message from "./components/Message/index.vue"
+
 const theme = darkTheme
 </script>
 

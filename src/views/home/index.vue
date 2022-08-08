@@ -13,6 +13,7 @@ import { ref, onBeforeMount } from 'vue';
 
 const ws = ref(null)
 const isShowContent = ref(false)
+const io = ref(null)
 
 const getUserInfo = async () => {
   const res = await userInfo()
@@ -35,7 +36,7 @@ const initWs = () => {
 
 onBeforeMount(async () => {
   await getUserInfo()
-  initWs()
+  // initWs()
 })
 
 </script>

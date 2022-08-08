@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title">Create a new room, please input the room name !</div>
-    <n-input type="text" class="create-input" v-model="roomname" size="medium" placeholder="please input the room name" />
+    <n-input type="text" class="create-input" v-model:value="roomname" size="medium" placeholder="please input the room name" />
     <div>
       <n-button strong secondary type="primary" :loading="loading" @click="createRoomInpage">create</n-button>
     </div>
@@ -14,13 +14,13 @@ import { createRoom } from '../../../api/room'
 
 const roomname = ref('')
 const loading = ref(false)
-const userInfo = sessionStorage.getItem('userInfo')
+const userInfo = ref(JSON.parse(sessionStorage.getItem('userInfo')))
 
 const createRoomInpage = async () => {
   // 创建房间
   loading.value = true
   const data = {
-    admin: userInfo._id,
+    admin: userInfo.value._id,
     roomname: roomname.value
   }
   const res = await createRoom(data)
@@ -40,6 +40,6 @@ const createRoomInpage = async () => {
 }
 .create-input {
  margin: 10px 0;
-  width: 20vw;
+  width: 300px;
 }
 </style>
