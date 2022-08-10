@@ -22,6 +22,10 @@ const routes = [
           {
             path: 'newroom',
             component: () => import('../views/home/room/index.vue')
+          },
+          {
+            path: 'room',
+            component: () => import('../views/home/innerRoom/index.vue')
           }
         ]
     },

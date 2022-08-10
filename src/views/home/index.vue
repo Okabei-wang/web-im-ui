@@ -8,16 +8,28 @@
 
 <script setup>
 import layout from '../components/layout.vue'
-import { userInfo } from '../../api/login'
+import { userInfo, getFriendList } from '../../api/login'
 import { ref, onBeforeMount } from 'vue';
 
 const ws = ref(null)
 const isShowContent = ref(false)
 const io = ref(null)
 
+const initFriendList = async (friendsIdList) => {
+  const res = await getFriendList(friendsIdList)
+  if(res.code === 0) {
+    for(let i in res.data) {
+      res.data[i].newMsgCount = 0
+    }
+    return res.data
+  }
+}
+
 const getUserInfo = async () => {
   const res = await userInfo()
   if(res.code === 0) {
+    const friends = await initFriendList(res.data.friends)
+    res.data.friends = friends
     sessionStorage.setItem('userInfo', JSON.stringify(res.data))
     isShowContent.value = true
   }

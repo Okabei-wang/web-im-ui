@@ -42,3 +42,14 @@ export function fetchImageCode() {
     method: 'GET'
   })
 }
+
+/**
+ * 获取好友列表
+ */
+ export function getFriendList(data) {
+  return request({
+    url: `${serverHost}/friend/list`,
+    method: 'POST',
+    data
+  })
+}

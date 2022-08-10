@@ -43,11 +43,11 @@
   <div class="friends">
     <n-collapse>
       <n-collapse-item title="Friends List">
-        <div v-if="friendsList.length">
-          <div v-for="item in friendsList" :key="item.id" @click="handleSelectPersion(item.id)" :class="[ friendSelected === item.id ? 'friend-item-active friend-item' : 'friend-item']">
+        <div v-if="userInfo.friends.length">
+          <div v-for="item in userInfo.friends" :key="item.id" @click="handleSelectPersion(item.id)" :class="[ friendSelected === item.id ? 'friend-item-active friend-item' : 'friend-item']">
             <n-icon class="left-icon" :component="Person"/>
-            {{ item.realName }}
-            <span class="message-tip">
+            {{ item.username }}
+            <span v-if="item.newMsgCount" class="message-tip">
               {{ item.newMsgCount }}
             </span>
           </div>
@@ -58,61 +58,26 @@
       </n-collapse-item>
     </n-collapse>
   </div>
+  <div class="bottom-btn">
+    <n-button v-if="route.path === '/home/newroom'" quaternary type="primary" @click="handleBackToIndex">
+      back to index
+    </n-button>
+    <n-button v-else quaternary type="primary" @click="handlePushCreate">
+      i want to create room
+    </n-button>
+  </div>
 </template>
 
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import { Search, EllipsisHorizontal, Home, Person } from '@vicons/ionicons5';
+import { useRouter, useRoute } from "vue-router";
 
+const router = useRouter()
+const route = useRoute()
 const userInfo = ref({})
 const roomSelected = ref(null)
 const friendSelected = ref(null)
-
-const roomList = ref([
-  {
-    roomId: 10001,
-    roomNumber: 10001,
-    newMsgCount: 5
-  },
-  {
-    roomId: 10002,
-    roomNumber: 10002,
-    newMsgCount: 132
-  },
-  {
-    roomId: 10003,
-    roomNumber: 10003,
-    newMsgCount: 19
-  },
-  {
-    roomId: 10004,
-    roomNumber: 10004,
-    newMsgCount: 12
-  }
-])
-
-const friendsList = ref([
-  {
-    id: 1,
-    realName: 'Okabei',
-    newMsgCount: 112
-  },
-  {
-    id: 2,
-    realName: 'DrLemonPie',
-    newMsgCount: 6
-  },
-  {
-    id: 3,
-    realName: 'Libra',
-    newMsgCount: 124
-  },
-  {
-    id: 4,
-    realName: '粑粑牛b',
-    newMsgCount: 12
-  }
-])
 
 const handleSelectPersion = (id) => {
   roomSelected.value = null
@@ -130,6 +95,14 @@ const handleSearch = () => {
 
 const handleMore = () => {
   console.log('更多')
+}
+
+const handlePushCreate = () => {
+  router.replace('/home/newroom')
+}
+
+const handleBackToIndex = () => {
+  router.replace('/home')
 }
 
 onBeforeMount(() => {
@@ -242,6 +215,16 @@ onBeforeMount(() => {
   text-align: center;
   font-size: 14px;
   color: #8c8c8c;
+}
+
+.bottom-btn {
+  width: 270px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 20px;
 }
 
 ::v-deep(.n-collapse-item__header-main) {

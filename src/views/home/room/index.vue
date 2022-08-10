@@ -26,11 +26,11 @@ const createRoomInpage = async () => {
   const res = await createRoom(data)
   if(res.code === 0) {
     // 创建成功
-    
-  } else {
-    // 创建失败
-    
+    $message.success('创建成功')
+    // 进入该房间
+    router.push({ path: '/home/room', query: { roomId: res.data } })
   }
+  loading.value = false
 }
 </script>
 
