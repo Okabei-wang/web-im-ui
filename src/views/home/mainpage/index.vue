@@ -19,12 +19,12 @@ const initSocket = () => {
   })
   //向服务端发送消息
   const info = JSON.parse(sessionStorage.getItem('userInfo'))
-  io.emit('sendMsg', { type: 0, time: new Date(), message: `${info.username} 链接 websocket`, userId: info._id })
+  // io.emit('sendMsg', { type: 0, time: new Date(), message: `${info.username} 链接 websocket`, userId: info._id })
 
-  setInterval(() => {
-    // 每15s心跳一次
-    io.emit('heartbeat', { userId: info._id, username: info.username})
-  }, 15000)
+  // setInterval(() => {
+  //   // 每15s心跳一次
+  //   io.emit('heartbeat', { userId: info._id, username: info.username})
+  // }, 15000)
 
   //ws服务器断开连接
   io.on('connectionClose', () => {
@@ -32,9 +32,9 @@ const initSocket = () => {
   })
 
   //接收服务端相对应的setId数据
-  io.on('setId', data => {
-    console.log(data)
-  })
+  // io.on('setId', data => {
+  //   console.log(data)
+  // })
 }
 
 onBeforeMount(() => {

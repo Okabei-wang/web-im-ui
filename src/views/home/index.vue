@@ -25,6 +25,10 @@ const initFriendList = async (friendsIdList) => {
   }
 }
 
+const initRoomList = async () => {
+  const res = await getRoomList()
+}
+
 const getUserInfo = async () => {
   const res = await userInfo()
   if(res.code === 0) {
