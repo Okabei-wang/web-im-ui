@@ -16,15 +16,15 @@ const routes = [
         component: Home,
         children: [
           {
-            path: 'index',
+            path: 'index', // 登录后首页
             component: () => import('../views/home/mainpage/index.vue')
           },
           {
-            path: 'newroom',
+            path: 'newroom', // 创建聊天室
             component: () => import('../views/home/room/index.vue')
           },
           {
-            path: 'room',
+            path: 'room', // 聊天室
             component: () => import('../views/home/innerRoom/index.vue')
           }
         ]
