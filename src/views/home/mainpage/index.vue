@@ -1,5 +1,5 @@
 <template>
-  <div class="mian-page">
+  <div class="main-page">
     <div class="title">Hello, {{ userInfo.username }}</div>
     <div class="sub-title">Welcome to here !</div>
     <div class="bg"></div>
@@ -36,7 +36,7 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss" scoped>
-.mian-page {
+.main-page {
   // background-image: url('../../../assets/welcome.jpg');
   // background-repeat: no-repeat;
   // background-size: cover;
