@@ -25,7 +25,7 @@ const initFriendList = async (friendsIdList) => {
   }
 }
 
-const initRoomList = async () => {
+const initRoomList = async (roomsIdList) => {
   const res = await getRoomList()
 }
 

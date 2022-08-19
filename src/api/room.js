@@ -11,3 +11,14 @@ export function createRoom(data) {
     data
   })
 }
+
+/**
+ * 获取房间信息
+ */
+ export function getRoomInfo(data) {
+  return request({
+    url: `${serverHost}/room/info`,
+    method: 'post',
+    data
+  })
+}
