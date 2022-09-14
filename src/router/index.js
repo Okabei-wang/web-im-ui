@@ -26,6 +26,10 @@ const routes = [
           {
             path: 'room', // 聊天室
             component: () => import('../views/home/innerRoom/index.vue')
+          },
+          {
+            path: 'empty', // 空白转换页
+            component: () => import('../views/home/empty/index.vue')
           }
         ]
     },

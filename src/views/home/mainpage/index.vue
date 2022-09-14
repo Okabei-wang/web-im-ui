@@ -8,30 +8,10 @@
 
 <script setup>
 import { ref, onBeforeMount } from 'vue'
-import socketio from 'socket.io-client'
 
 const userInfo = ref(sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')) : {})
 
-const initSocket = () => {
-  let io = socketio('http://localhost:3000', {
-    //transports和服务端统一，否则会跨域
-      transports: ['websocket']
-  })
-  //向服务端发送消息
-  const info = JSON.parse(sessionStorage.getItem('userInfo'))
-  io.emit('login', { userId: info._id, username: info.username })
-  io.on('message', (data) => {
-    console.log('message: ', data)
-  })
-
-  // setInterval(() => {
-  //   // 每15s心跳一次
-  //   io.emit('heartbeat', { userId: info._id, username: info.username})
-  // }, 15000)
-}
-
 onBeforeMount(() => {
-  initSocket()
 })
 </script>
 
