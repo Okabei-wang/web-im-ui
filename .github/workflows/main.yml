@@ -48,6 +48,6 @@ jobs:
       # SSH Port 服务器端口
             port: 22
       # SSH User name 用户名
-            username: ${{ secrets.USER.NAME }}
+            username: ${{ secrets.USER_NAME }}
       # key 密钥
             key: ${{ secrets.SSH_KEY }}
