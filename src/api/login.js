@@ -53,3 +53,35 @@ export function fetchImageCode() {
     data
   })
 }
+
+/**
+ * 更改用户头像
+ */
+ export function updateAvatar(data) {
+  return request({
+    url: `${serverHost}/update/avatar`,
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 搜索用户
+ */
+ export function searchUser(data) {
+  return request({
+    url: `${serverHost}/find/user`,
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 用户消息列表
+ */
+ export function getUserMessageList(data) {
+  return request({
+    url: `${serverHost}/user/Message/list`,
+    method: 'get'
+  })
+}

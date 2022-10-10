@@ -1,3 +1,4 @@
 export function getToken() {
-  return sessionStorage.getItem('token')
+  const token = JSON.parse(sessionStorage.getItem('user')).token || ''
+  return token
 }

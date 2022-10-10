@@ -28,6 +28,10 @@ const routes = [
             component: () => import('../views/home/innerRoom/index.vue')
           },
           {
+            path: 'friend', // 好友私聊
+            component: () => import('../views/home/friendChat/index.vue')
+          },
+          {
             path: 'empty', // 空白转换页
             component: () => import('../views/home/empty/index.vue')
           }

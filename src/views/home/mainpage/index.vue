@@ -8,10 +8,13 @@
 
 <script setup>
 import { ref, onBeforeMount } from 'vue'
+import { UserStore } from '../../../store/modules/user.js';
 
-const userInfo = ref(sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')) : {})
+const userStore = UserStore()
+const userInfo = ref({})
 
 onBeforeMount(() => {
+  userInfo.value = userStore.getInfo
 })
 </script>
 

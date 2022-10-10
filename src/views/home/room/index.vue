@@ -10,11 +10,15 @@
 
 <script setup>
 import { ref, onBeforeMount } from 'vue'
+import { useRouter } from 'vue-router'
 import { createRoom } from '../../../api/room'
+import { UserStore } from '../../../store/modules/user';
 
+const router = useRouter()
+const userStore = UserStore()
 const roomname = ref('')
 const loading = ref(false)
-const userInfo = ref(JSON.parse(sessionStorage.getItem('userInfo')))
+const userInfo = ref({})
 
 const createRoomInpage = async () => {
   // 创建房间
@@ -32,6 +36,10 @@ const createRoomInpage = async () => {
   }
   loading.value = false
 }
+
+onBeforeMount(() => {
+  userInfo.value = userStore.getInfo
+})
 </script>
 
 <style lang="scss" scoped>

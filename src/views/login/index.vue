@@ -31,11 +31,13 @@
 
 <script setup>
 import { fetchImageCode, loginUser } from "../../api/login";
+import { UserStore } from "../../store/modules/user"
 import { useRouter } from "vue-router";
 import { ref, onBeforeMount, onMounted } from 'vue'
 const router = useRouter()
 
 const formRef = ref()
+const userStore = UserStore()
 
 let loginForm = ref({
   username: '',
@@ -89,7 +91,7 @@ const handleLogin = async () => {
       $message.success('登录成功')
       const data = res.data
       // 拿到token存起来
-      sessionStorage.setItem('token', res.data)
+      await userStore.setToken(res.data)
       // 跳转到首页
       router.push('/home')
     }
@@ -102,6 +104,8 @@ const handleToRegister = async () => {
 }
 
 onBeforeMount(() => {
+  userStore.setInfo('')
+  userStore.setToken('')
   getImageCode()
 })
 </script>

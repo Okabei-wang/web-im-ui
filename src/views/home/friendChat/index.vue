@@ -1,28 +1,18 @@
 <template>
-  <div class="innerRoom" :key="route.query.roomId">
+  <div class="innerfriend" :key="route.query.friendId">
     <div class="content">
-      <div class="room-top">
+      <div class="friend-top">
         <div class="top-left">
-          <div class="room-name">
-            <span>{{ room.roomname }}</span>
-          </div>
-          <div class="remark">
-            <span>(roomId: {{ room.roomId }})</span>
-          </div>
-        </div>
-        <div class="top-right">
-          <div class="room-member">
-            <div v-for="(item, index) in room.memberlist" :key="index">
-              <img class="member-avatar" :src="item.avatar" />
-            </div>
-            <div class="member-more" v-if="room.memberlist.length > 3">
-              <span>{{ room.memberlist.length }}</span>
-            </div>
+          <!-- <div class="remark">
+            <img class="friend-avatar" :src="friend.avatar" />
+          </div> -->
+          <div class="friend-name">
+            <span>{{ friend.username }}</span>
           </div>
         </div>
       </div>
-      <div class="room-content">
-        <div v-for="(item, index) in room.messageList" :key="index">
+      <div class="friend-content">
+        <div v-for="(item, index) in friend.messageList" :key="index">
           <div
             class="messaage-item-me"
             v-if="item.userInfo._id === userInfo._id"
@@ -73,13 +63,8 @@
         </n-input>
       </div>
     </div>
-    <div class="room-detail">
-      <p class="detail-label">members：</p>
-      <div class="detail-member">
-        <div v-for="(item, index) in room.memberlist" :key="index">
-          <img class="member-avatar" :src="item.avatar" />
-        </div>
-      </div>
+    <div class="friend-detail">
+      something details(No content for now)
     </div>
   </div>
 </template>
@@ -87,7 +72,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, onBeforeMount, onMounted } from "vue";
-import { getRoomInfo, getRoomHistory } from "../../../api/room";
+import { getFriendInfo, getFriendHistory } from "../../../api/friend";
 import { timestampToTime } from "../../../utils";
 import { SendSharp } from "@vicons/ionicons5";
 import { UserStore } from "../../../store/modules/user";
@@ -97,8 +82,7 @@ const userStore = UserStore();
 const route = useRoute();
 const userInfo = ref({});
 const message = ref("");
-const room = ref({
-  memberlist: [],
+const friend = ref({
   messageList: [],
 });
 const timestampToTimeFunc = (timeStamp) => {
@@ -112,37 +96,38 @@ const handleSendMessage = () => {
   }
   bus.emit("messageSend", {
     content: message.value,
-    type: 2,
-    receiveId: route.query.roomId,
+    type: 1,
+    receiveId: route.query.friendId,
     sendUserId: userInfo.value._id,
     time: parseInt(new Date().getTime()),
   });
   message.value = "";
 };
-const getRoomInfoFunc = async () => {
+const getFriendInfoFunc = async () => {
   const data = {
-    roomId: route.query.roomId,
+    friendId: route.query.friendId,
   };
-  const res = await getRoomInfo(data);
+  const res = await getFriendInfo(data);
   if (res.code === 0) {
-    room.value = res.data;
+    friend.value = res.data;
   }
 };
 
-const getRoomMessageHistory = async () => {
+const getFriendMessageHistory = async () => {
   const data = {
-    roomId: route.query.roomId,
+    friendId: route.query.friendId,
+    userId: userInfo.value._id
   };
-  const res = await getRoomHistory(data);
+  const res = await getFriendHistory(data);
   if (res.code === 0) {
-    room.value.messageList = res.data || [];
+    friend.value.messageList = res.data || [];
   }
 };
 
 const initBusMessage = () => {
-  bus.on("roomMessage", async (message) => {
-    if (message.receiveId === room.value._id) {
-      room.value.messageList.push(message);
+  bus.on("friendMessage", async (message) => {
+    if (message.receiveId === friend.value._id || message.receiveId === userInfo.value._id) {
+      friend.value.messageList.push(message);
       boxBottomFunc();
     }
   });
@@ -150,15 +135,15 @@ const initBusMessage = () => {
 
 const boxBottomFunc = () => {
   setTimeout(() => {
-    document.querySelector(".room-content").scrollTop =
-      document.querySelector(".room-content").scrollHeight;
+    document.querySelector(".friend-content").scrollTop =
+      document.querySelector(".friend-content").scrollHeight;
   }, 150);
 };
 
 onBeforeMount(async () => {
   userInfo.value = userStore.getInfo;
-  await getRoomInfoFunc();
-  await getRoomMessageHistory();
+  await getFriendInfoFunc();
+  await getFriendMessageHistory();
   initBusMessage();
 });
 
@@ -178,7 +163,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.innerRoom {
+.innerfriend {
   display: flex;
   height: 100%;
   width: 100%;
@@ -191,7 +176,7 @@ onMounted(() => {
     height: 100%;
     width: 65%;
 
-    .room-top {
+    .friend-top {
       height: 35px;
       width: calc(100% - 10px);
       box-shadow: 0 3px 0px transparent;
@@ -205,18 +190,25 @@ onMounted(() => {
       .top-left {
         display: flex;
         align-items: center;
-        .room-name {
+        .friend-name {
           font-size: 20px;
         }
 
         .remark {
           color: grey;
           margin-left: 10px;
+
+          .friend-avatar {
+            margin-right:10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+          }
         }
       }
 
       .top-right {
-        .room-member {
+        .friend-member {
           display: flex;
 
           .member-avatar {
@@ -239,7 +231,7 @@ onMounted(() => {
       }
     }
 
-    .room-content {
+    .friend-content {
       // background: rgb(136, 92, 92);
       margin-top: 45px;
       margin-bottom: 55px;
@@ -331,7 +323,7 @@ onMounted(() => {
     }
   }
 
-  .room-detail {
+  .friend-detail {
     padding: 5px;
     width: 32%;
     margin-left: 3%;

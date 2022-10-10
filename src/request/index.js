@@ -8,10 +8,18 @@ const service = axios.create({
   timeout: 15000 * 2 // request timeout
 })
 
+const whitelist = ['login/image_code', 'login/register', 'user/login']
+
 // request interceptor
 service.interceptors.request.use(
   config => {
-    if(getToken()) {
+    let isNeedAuth = true
+    for(let i in whitelist) {
+      if(config.url.indexOf(whitelist[i]) > -1) {
+        isNeedAuth = false
+      }
+    }
+    if(isNeedAuth) {
       config.headers['Authorization'] = 'Bearer ' + getToken()
     }
     return config

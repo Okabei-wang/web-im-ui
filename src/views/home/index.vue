@@ -10,7 +10,8 @@
 import layout from '../components/layout.vue'
 import { userInfo, getFriendList } from '../../api/login'
 import { ref, onBeforeMount } from 'vue';
-
+import { UserStore } from '../../store/modules/user';
+const userStore = UserStore()
 const ws = ref(null)
 const isShowContent = ref(false)
 const io = ref(null)
@@ -34,7 +35,7 @@ const getUserInfo = async () => {
   if(res.code === 0) {
     const friends = await initFriendList(res.data.friends)
     res.data.friends = friends
-    sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+    userStore.setInfo(res.data)
     isShowContent.value = true
   }
 }
