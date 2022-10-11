@@ -163,6 +163,7 @@
 
 <script setup>
 import { ref, onBeforeMount, h } from "vue";
+import { serverHost } from "../../api/server"
 import {
   Search,
   EllipsisHorizontal,
@@ -414,7 +415,7 @@ const getRoomListFunc = async () => {
 };
 
 const initSocket = () => {
-  let io = socketio("http://localhost:3000", {
+  let io = socketio(serverHost, {
     //transports和服务端统一，否则会跨域
     transports: ["websocket"],
   });
