@@ -264,7 +264,7 @@ const handleAgree = async () => {
   const res = await agreeInvite(data);
   if (res.code === 0) {
     $message.success("操作成功");
-    const info = userStore.getInfo();
+    const info = userStore.getInfo;
     info.friend.push(invitData.sendUserId);
     userStore.setInfo(info)
     dialogVisible.value = false
